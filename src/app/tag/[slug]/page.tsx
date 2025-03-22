@@ -1,22 +1,24 @@
-import { notFound } from "next/navigation"
-import { getPostsByTag, getTagBySlug } from "@/lib/data"
-import { PostCard } from "@/components/post-card"
-import { MainNav } from "@/components/main-nav"
+import { notFound } from "next/navigation";
+import { PostCard } from "@/components/post-card";
+import { MainNav } from "@/components/main-nav";
+import { getTagBySlug } from "@/lib/actions/tags";
+import { getPostsByTag } from "@/lib/actions/posts";
 
 interface TagPageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
 export default async function TagPage({ params }: TagPageProps) {
-  const tag = await getTagBySlug(params.slug)
+  const { slug } = await params;
+  const tag = await getTagBySlug(slug);
 
   if (!tag) {
-    notFound()
+    notFound();
   }
 
-  const posts = await getPostsByTag(params.slug)
+  const posts = await getPostsByTag(slug);
 
   return (
     <>
@@ -34,11 +36,12 @@ export default async function TagPage({ params }: TagPageProps) {
 
         {posts.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">No posts found with this tag.</p>
+            <p className="text-muted-foreground">
+              No posts found with this tag.
+            </p>
           </div>
         )}
       </div>
     </>
-  )
+  );
 }
-

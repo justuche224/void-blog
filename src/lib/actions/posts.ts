@@ -1,3 +1,5 @@
+"use server";
+
 import "server-only";
 import { db } from "@/db";
 import {
@@ -22,7 +24,6 @@ export type PostWithRelations = Post & {
 
 // Posts
 export async function getPosts(): Promise<PostWithRelations[]> {
-  "use server";
   const allPosts = await db.query.posts.findMany({
     orderBy: (posts, { desc }) => [desc(posts.createdAt)],
   });
@@ -60,7 +61,6 @@ export async function getPosts(): Promise<PostWithRelations[]> {
 export async function getPostBySlug(
   slug: string
 ): Promise<PostWithRelations | null> {
-  "use server";
   const post = await db.query.posts.findFirst({
     where: eq(posts.slug, slug),
   });
@@ -94,7 +94,6 @@ export async function getPostBySlug(
 export async function getPostsByCategory(
   categorySlug: string
 ): Promise<PostWithRelations[]> {
-  "use server";
   const category = await db.query.categories.findFirst({
     where: eq(categories.slug, categorySlug),
   });
@@ -121,7 +120,6 @@ export async function getPostsByCategory(
 export async function getPostsByTag(
   tagSlug: string
 ): Promise<PostWithRelations[]> {
-  "use server";
   const tag = await db.query.tags.findFirst({
     where: eq(tags.slug, tagSlug),
   });
@@ -145,38 +143,6 @@ export async function getPostsByTag(
   );
 }
 
-// Categories
-export async function getCategories(): Promise<Category[]> {
-  "use server";
-  return db.query.categories.findMany({
-    orderBy: (categories, { asc }) => [asc(categories.name)],
-  });
-}
-
-export async function getCategoryBySlug(
-  slug: string
-): Promise<Category | undefined> {
-  "use server";
-  return db.query.categories.findFirst({
-    where: eq(categories.slug, slug),
-  });
-}
-
-// Tags
-export async function getTags(): Promise<Tag[]> {
-  "use server";
-  return db.query.tags.findMany({
-    orderBy: (tags, { asc }) => [asc(tags.name)],
-  });
-}
-
-export async function getTagBySlug(slug: string): Promise<Tag | undefined> {
-  "use server";
-  return db.query.tags.findFirst({
-    where: eq(tags.slug, slug),
-  });
-}
-
 // Admin actions
 export type PostFormData = {
   title: string;
@@ -190,7 +156,6 @@ export type PostFormData = {
 };
 
 export async function createPost(data: PostFormData) {
-  "use server";
   const slug = slugifyString(data.title);
 
   // Insert post
@@ -264,7 +229,6 @@ export async function createPost(data: PostFormData) {
 }
 
 export async function updatePost(id: number, data: PostFormData) {
-  "use server";
   // Update post
   await db
     .update(posts)
@@ -338,55 +302,4 @@ export async function updatePost(id: number, data: PostFormData) {
   revalidatePath(`/blog/${slugifyString(data.title)}`);
   revalidatePath("/admin");
   redirect("/admin");
-}
-
-export async function deletePost(id: number) {
-  "use server";
-  // Delete post (cascade will handle relationships)
-  await db.delete(posts).where(eq(posts.id, id));
-
-  revalidatePath("/blog");
-  revalidatePath("/admin");
-  redirect("/admin");
-}
-
-export async function createCategory(name: string, description?: string) {
-  "use server";
-  const slug = slugifyString(name);
-
-  await db.insert(categories).values({
-    name,
-    slug,
-    description: description || null,
-  });
-
-  revalidatePath("/admin/categories");
-  redirect("/admin/categories");
-}
-
-export async function updateCategory(
-  id: number,
-  name: string,
-  description?: string
-) {
-  "use server";
-  await db
-    .update(categories)
-    .set({
-      name,
-      description: description || null,
-    })
-    .where(eq(categories.id, id));
-
-  revalidatePath("/admin/categories");
-  redirect("/admin/categories");
-}
-
-export async function deleteCategory(id: number) {
-  "use server";
-  // Delete category (cascade will handle relationships)
-  await db.delete(categories).where(eq(categories.id, id));
-
-  revalidatePath("/admin/categories");
-  redirect("/admin/categories");
 }

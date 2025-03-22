@@ -1,17 +1,24 @@
-import Link from "next/link"
-import { getCategories, deleteCategory } from "@/lib/data"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Pencil, Trash2 } from "lucide-react"
-import { CategoryForm } from "@/app/admin/components/category-form"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Pencil, Trash2 } from "lucide-react";
+import { CategoryForm } from "@/app/admin/components/category-form";
+import { deleteCategory, getCategories } from "@/lib/actions/categories";
 
 export const metadata = {
   title: "Categories | Admin Dashboard",
   description: "Manage your blog categories",
-}
+};
 
 export default async function CategoriesPage() {
-  const categories = await getCategories()
+  const categories = await getCategories();
 
   return (
     <div>
@@ -42,8 +49,7 @@ export default async function CategoriesPage() {
                       </Button>
                       <form
                         action={async () => {
-                          "use server"
-                          await deleteCategory(category.id)
+                          await deleteCategory(category.id);
                         }}
                       >
                         <Button variant="ghost" size="icon" type="submit">
@@ -74,6 +80,5 @@ export default async function CategoriesPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

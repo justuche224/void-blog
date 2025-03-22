@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { createCategory } from "@/lib/data";
+import { createCategory } from "@/lib/actions/categories";
 
 interface CategoryFormProps {
   action?: (formData: FormData) => Promise<void>;
@@ -18,7 +18,6 @@ interface CategoryFormProps {
 
 export function CategoryForm({
   action = async (formData: FormData) => {
-    "use server";
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     await createCategory(name, description);
@@ -28,7 +27,7 @@ export function CategoryForm({
     description: "",
   },
 }: CategoryFormProps) {
-  const router = useRouter();
+  // const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(formData: FormData) {

@@ -1,15 +1,15 @@
-import Link from "next/link"
-import { getTags } from "@/lib/data"
-import { MainNav } from "@/components/main-nav"
-import { Badge } from "@/components/ui/badge"
+import Link from "next/link";
+import { MainNav } from "@/components/main-nav";
+import { Badge } from "@/components/ui/badge";
+import { getTags } from "@/lib/actions/tags";
 
 export const metadata = {
   title: "Tags | Markdown Blog",
   description: "Browse all tags",
-}
+};
 
 export default async function TagsPage() {
-  const tags = await getTags()
+  const tags = await getTags();
 
   return (
     <>
@@ -37,6 +37,5 @@ export default async function TagsPage() {
         )}
       </div>
     </>
-  )
+  );
 }
-

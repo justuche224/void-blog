@@ -1,16 +1,18 @@
-import Link from "next/link"
-import { getPosts } from "@/lib/data"
-import { PostCard } from "@/components/post-card"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { PostCard } from "@/components/post-card";
+import { Button } from "@/components/ui/button";
+import { getPosts } from "@/lib/actions/posts";
 
 export default async function Home() {
-  const posts = await getPosts()
+  const posts = await getPosts();
 
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold mb-4">Markdown Blog</h1>
-        <p className="text-muted-foreground mb-6">A beautiful blog built with Next.js, Drizzle, and Tailwind</p>
+        <p className="text-muted-foreground mb-6">
+          A beautiful blog built with Next.js, Drizzle, and Tailwind
+        </p>
         <div className="flex justify-center gap-4">
           <Button asChild>
             <Link href="/blog">All Posts</Link>
@@ -37,6 +39,5 @@ export default async function Home() {
         )}
       </section>
     </div>
-  )
+  );
 }
-

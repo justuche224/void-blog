@@ -1,5 +1,7 @@
+import { getCategories } from "@/lib/actions/categories";
+import { getPosts } from "@/lib/actions/posts";
+import { getTags } from "@/lib/actions/tags";
 import type { MetadataRoute } from "next";
-import { getPosts, getCategories, getTags } from "@/lib/data";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://example.com";

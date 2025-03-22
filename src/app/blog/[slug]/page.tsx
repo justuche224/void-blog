@@ -1,26 +1,29 @@
-import Image from "next/image"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { getPostBySlug } from "@/lib/data"
-import { formatDate } from "@/lib/utils"
-import { MarkdownRenderer } from "@/components/markdown-renderer"
-import { MainNav } from "@/components/main-nav"
-import { Badge } from "@/components/ui/badge"
-import type { Metadata } from "next"
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { formatDate } from "@/lib/utils";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
+import { MainNav } from "@/components/main-nav";
+import { Badge } from "@/components/ui/badge";
+import type { Metadata } from "next";
+import { getPostBySlug } from "@/lib/actions/posts";
 
 interface BlogPostPageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = await getPostBySlug(params.slug)
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return {
       title: "Post Not Found",
-    }
+    };
   }
 
   return {
@@ -38,14 +41,15 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
           ],
         }
       : undefined,
-  }
+  };
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await getPostBySlug(params.slug)
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -55,7 +59,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <header className="mb-8">
           <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
-            <time dateTime={post.createdAt.toISOString()}>{formatDate(post.createdAt)}</time>
+            <time dateTime={post.createdAt.toISOString()}>
+              {formatDate(post.createdAt)}
+            </time>
           </div>
           {post.coverImage && (
             <div className="relative h-[400px] w-full mb-8">
@@ -86,6 +92,5 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </article>
     </>
-  )
+  );
 }
-

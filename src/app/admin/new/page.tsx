@@ -1,5 +1,6 @@
-import { getCategories, createPost } from "@/lib/data";
 import { PostForm } from "@/app/admin/components/post-form";
+import { getCategories } from "@/lib/actions/categories";
+import { createPost } from "@/lib/actions/posts";
 
 export const metadata = {
   title: "New Post | Admin Dashboard",
@@ -10,8 +11,6 @@ export default async function NewPostPage() {
   const categories = await getCategories();
 
   async function handleCreatePost(formData: FormData) {
-    "use server";
-
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
     const coverImage = formData.get("coverImage") as string;

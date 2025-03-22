@@ -1,15 +1,15 @@
-import Link from "next/link"
-import { getCategories } from "@/lib/data"
-import { MainNav } from "@/components/main-nav"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import Link from "next/link";
+import { MainNav } from "@/components/main-nav";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { getCategories } from "@/lib/actions/categories";
 
 export const metadata = {
   title: "Categories | Markdown Blog",
   description: "Browse all categories",
-}
+};
 
 export default async function CategoriesPage() {
-  const categories = await getCategories()
+  const categories = await getCategories();
 
   return (
     <>
@@ -29,7 +29,9 @@ export default async function CategoriesPage() {
                 </CardHeader>
                 {category.description && (
                   <CardContent>
-                    <p className="text-muted-foreground">{category.description}</p>
+                    <p className="text-muted-foreground">
+                      {category.description}
+                    </p>
                   </CardContent>
                 )}
               </Card>
@@ -44,6 +46,5 @@ export default async function CategoriesPage() {
         )}
       </div>
     </>
-  )
+  );
 }
-

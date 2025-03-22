@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { getPosts, deletePost } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,9 +10,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Pencil, Trash2 } from "lucide-react";
+import { getPosts } from "@/lib/actions/posts";
 
 export default async function AdminPage() {
   const posts = await getPosts();
+
+  function deletePost(id: number) {
+    console.log("Deleting post with id:", id);
+
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <div>
@@ -52,7 +58,6 @@ export default async function AdminPage() {
                     </Button>
                     <form
                       action={async () => {
-                        "use server";
                         await deletePost(post.id);
                       }}
                     >

@@ -8,7 +8,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { PostWithRelations } from "@/lib/data";
+import { PostWithRelations } from "@/lib/actions/posts";
 
 interface PostCardProps {
   post: PostWithRelations;
