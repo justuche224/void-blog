@@ -15,7 +15,7 @@ import { getPosts } from "@/lib/actions/posts";
 export default async function AdminPage() {
   const posts = await getPosts();
 
-  function deletePost(id: number) {
+  async function deletePost(id: number) {
     "use server";
     console.log("Deleting post with id:", id);
 
