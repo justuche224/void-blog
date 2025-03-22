@@ -59,6 +59,7 @@ export default async function AdminPage() {
                     </Button>
                     <form
                       action={async () => {
+                        "use server";
                         await deletePost(post.id);
                       }}
                     >
