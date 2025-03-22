@@ -11,6 +11,7 @@ export default async function NewPostPage() {
   const categories = await getCategories();
 
   async function handleCreatePost(formData: FormData) {
+    "use server";
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
     const coverImage = formData.get("coverImage") as string;
