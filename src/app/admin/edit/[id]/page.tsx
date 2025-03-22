@@ -27,6 +27,7 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
   const categories = await getCategories();
 
   async function handleUpdatePost(formData: FormData) {
+    "use server";
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
     const coverImage = formData.get("coverImage") as string;

@@ -26,6 +26,7 @@ export default async function EditCategoryPage({
   }
 
   async function handleUpdateCategory(formData: FormData) {
+    "use server";
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
 
