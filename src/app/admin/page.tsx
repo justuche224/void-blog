@@ -16,6 +16,7 @@ export default async function AdminPage() {
   const posts = await getPosts();
 
   function deletePost(id: number) {
+    "use server";
     console.log("Deleting post with id:", id);
 
     throw new Error("Function not implemented.");
